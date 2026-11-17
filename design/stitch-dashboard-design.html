@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Telco Churn Analytics - Executive Dashboard</title>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed": "#7ff9c4",
+            "surface-container": "#e9edff",
+            "on-secondary-fixed": "#00201b",
+            "on-tertiary-container": "#009c6e",
+            "primary": "#000920",
+            "on-primary-container": "#7988ae",
+            "surface-variant": "#dce2f7",
+            "surface-bright": "#f9f9ff",
+            "on-secondary": "#ffffff",
+            "on-primary-fixed-variant": "#374668",
+            "on-error": "#ffffff",
+            "on-secondary-fixed-variant": "#005045",
+            "surface-container-low": "#f1f3ff",
+            "on-tertiary-fixed-variant": "#005138",
+            "error-container": "#ffdad6",
+            "inverse-primary": "#b7c6ef",
+            "on-primary-fixed": "#091b3a",
+            "outline": "#75777f",
+            "on-surface-variant": "#44474e",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed": "#002114",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#d8e2ff",
+            "on-error-container": "#93000a",
+            "surface": "#f9f9ff",
+            "surface-tint": "#4f5e81",
+            "surface-container-highest": "#dce2f7",
+            "on-background": "#141b2b",
+            "background": "#f9f9ff",
+            "secondary-fixed-dim": "#63dac3",
+            "tertiary-container": "#002719",
+            "secondary": "#006b5c",
+            "surface-container-high": "#e1e8fd",
+            "on-surface": "#141b2b",
+            "inverse-on-surface": "#edf0ff",
+            "on-secondary-container": "#007262",
+            "on-primary": "#ffffff",
+            "tertiary": "#000d06",
+            "tertiary-fixed-dim": "#61dca9",
+            "outline-variant": "#c5c6cf",
+            "primary-container": "#0f2040",
+            "inverse-surface": "#293040",
+            "primary-fixed-dim": "#b7c6ef",
+            "secondary-fixed": "#81f7de",
+            "secondary-container": "#81f7de",
+            "surface-dim": "#d3daef",
+            // Brand Specific Colors
+            "brand-navy": "#0F2040",
+            "brand-teal": "#0E9F8A",
+            "brand-red": "#E5484D",
+            "brand-green": "#1FA97A",
+            "brand-card-bg": "#F4F6F8",
+            "brand-text-dark": "#111827"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "2rem",
+            "space-lg": "1.5rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.25rem",
+            "gutter-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "margin-mobile": "1rem",
+            "space-xl": "2.5rem"
+          },
+          "fontFamily": {
+            "body-sm": ["Inter"],
+            "display-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl": ["Inter"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "metric-stat": ["Inter"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "body-sm": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "display-lg": ["3rem", { "lineHeight": "3.5rem", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "body-md": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "label-md": ["0.8125rem", { "lineHeight": "1rem", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "label-sm": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "metric-stat": ["1.75rem", { "lineHeight": "2rem", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["1rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.005em", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-shadow {
+      box-shadow: 0 1px 3px rgba(15, 32, 64, 0.04), 0 1px 2px rgba(15, 32, 64, 0.02);
+    }
+    .custom-shadow-hover {
+      box-shadow: 0 4px 12px rgba(15, 32, 64, 0.06), 0 1px 3px rgba(15, 32, 64, 0.03);
+    }
+    .thin-border {
+      border: 1px solid rgba(17, 24, 39, 0.06);
+    }
+  </style>
+</head>
+<body class="bg-surface-container-lowest text-brand-text-dark font-body-md antialiased flex min-h-screen">
+<!-- ========================================== -->
+<!-- SIDEBAR NAVIGATION (Shared Component Anchor) -->
+<!-- ========================================== -->
+<aside class="w-64 h-screen fixed left-0 top-0 flex flex-col justify-between p-4 z-40 bg-brand-navy text-on-primary border-r border-outline-variant/10 shadow-sm shrink-0">
+<!-- Top Brand & Menu -->
+<div class="flex flex-col gap-6">
+<!-- Header Brand Cluster -->
+<div class="flex items-center gap-3 px-2 pt-2">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest/10 flex items-center justify-center border border-white/10 text-secondary-fixed">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-on-primary tracking-tight leading-none">TelcoIntel</div>
+<div class="font-label-sm text-label-sm text-on-primary-container tracking-wider uppercase mt-1">Enterprise Analytics</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1">
+<!-- Overview (ACTIVE) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary-container text-secondary-fixed font-medium transition-all duration-150" href="#overview">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<!-- EDA -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary-container hover:text-on-primary hover:bg-primary-container/50 transition-colors" href="#eda">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">EDA</span>
+</a>
+<!-- Churn Drivers -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary-container hover:text-on-primary hover:bg-primary-container/50 transition-colors" href="#churn-drivers">
+<span class="material-symbols-outlined" data-icon="trending_down">trending_down</span>
+<span class="font-label-md text-label-md">Churn Drivers</span>
+</a>
+<!-- Model Performance -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary-container hover:text-on-primary hover:bg-primary-container/50 transition-colors" href="#model-performance">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-label-md text-label-md">Model Performance</span>
+</a>
+<!-- Feature Importance -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary-container hover:text-on-primary hover:bg-primary-container/50 transition-colors" href="#feature-importance">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-md text-label-md">Feature Importance</span>
+</a>
+<!-- Predict Churn -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary-container hover:text-on-primary hover:bg-primary-container/50 transition-colors" href="#predict-churn">
+<span class="material-symbols-outlined" data-icon="online_prediction">online_prediction</span>
+<span class="font-label-md text-label-md">Predict Churn</span>
+</a>
+<!-- Threshold Simulator -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary-container hover:text-on-primary hover:bg-primary-container/50 transition-colors" href="#threshold-simulator">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+<span class="font-label-md text-label-md">Threshold Simulator</span>
+</a>
+</nav>
+</div>
+<!-- CTA & Footer User Cluster -->
+<div class="flex flex-col gap-4">
+<!-- Cohort Action Button -->
+<button class="w-full h-10 px-4 rounded-lg bg-brand-teal text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-opacity-90 transition-all duration-150 active:scale-[0.99] shadow-sm">
+<span class="material-symbols-outlined text-lg" data-icon="auto_mode">auto_mode</span>
+<span>Run Cohort Analysis</span>
+</button>
+<div class="border-t border-outline-variant/10 pt-3 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary-container hover:text-on-primary hover:bg-primary-container/50 transition-colors" href="#settings">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Workspace Settings</span>
+</a>
+<div class="flex items-center justify-between px-3 py-2 rounded-lg text-on-primary-container hover:bg-primary-container/40 transition-colors cursor-pointer">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="account_circle">account_circle</span>
+<span class="font-label-md text-label-md text-on-primary">Executive User</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-brand-green"></span>
+</div>
+</div>
+</div>
+</aside>
+<!-- ========================================== -->
+<!-- MAIN WORKSPACE & TOP BAR                   -->
+<!-- ========================================== -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen bg-surface-container-lowest">
+<!-- Top App Bar Navigation (Shared Component Anchor) -->
+<header class="flex justify-between items-center w-full px-8 h-16 sticky top-0 z-30 bg-surface-container-lowest border-b border-outline-variant/15 shadow-sm">
+<div class="flex items-center gap-6">
+<h1 class="font-headline-md text-headline-md font-bold text-brand-navy tracking-tight">Telco Churn Analytics</h1>
+<!-- Search Bar -->
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-lg" data-icon="search">search</span>
+<input class="w-full h-9 pl-9 pr-3 text-body-sm font-body-sm rounded-lg bg-brand-card-bg border border-black/10 focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20 transition-all outline-none" placeholder="Search customer ID, cohort or segment..." type="text"/>
+</div>
+</div>
+<!-- Trailing Action Badges & Profile -->
+<div class="flex items-center gap-4">
+<!-- Churn Rate Primary Trailing Action -->
+<div class="h-9 px-3.5 rounded-full flex items-center gap-2 bg-[#E5484D]/10 border border-[#E5484D]/20">
+<span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
+<span class="font-label-md text-label-md font-bold text-brand-red">Churn Rate: 26.5%</span>
+</div>
+<!-- Export Report Secondary Action -->
+<button class="h-9 px-4 rounded-lg bg-surface-container-lowest border border-black/15 text-brand-text-dark font-label-md text-label-md hover:bg-brand-card-bg flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+<span>Export Report</span>
+</button>
+<!-- Utility Icons -->
+<div class="flex items-center gap-1 border-l border-r border-black/10 px-2">
+<button class="p-2 rounded-lg text-outline hover:text-brand-navy hover:bg-brand-card-bg transition-colors">
+<span class="material-symbols-outlined" data-icon="date_range">date_range</span>
+</button>
+<button class="p-2 rounded-lg text-outline hover:text-brand-navy hover:bg-brand-card-bg transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-brand-red"></span>
+</button>
+</div>
+<!-- Executive Avatar -->
+<div class="flex items-center gap-3 pl-1">
+<img class="w-9 h-9 rounded-full object-cover ring-2 ring-brand-teal/30" data-alt="A refined and professional corporate headshot of an executive telecom director in a tailored navy blazer, well lit with modern architectural office lighting and subtle teal background ambiance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu5jMcnVol9Ig_4XqlA1IpBElo1c9jgzzZLQXPhTSycHgM5_2Q7eB_cwFF5YP9G5j39HBO2AskQ3pTWaRTABDNChhgNebI5WfBMspum8r3q1vGRUGL6MdEBqQM8_LxjxIAyTK5UnBC4gSWr_aIfpVoyQfPo3-sDthW2DLzgsgca6H-AL4ktHqaJ1fDxwIhNjnqu8xbIQlw9aBEf4m3PZ4pBDDCn3O2YztQV-JlC-Bhm2rcQm1opbZPYIpEwwOc13w9qovQQtQ7_tra"/>
+<div class="flex flex-col text-left">
+<span class="font-label-md text-label-md font-semibold text-brand-navy">Dr. Sarah Jenkins</span>
+<span class="font-label-sm text-label-sm text-outline">VP Customer Science</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Workspace Main Content Canvas -->
+<main class="p-8 flex flex-col gap-6 max-w-[1600px] w-full mx-auto">
+<!-- SUBHEADER / AUDIT TIMESTAMP -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-black/5">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-brand-navy tracking-tight font-semibold">Executive Portfolio Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Real-time telemetry and predictive retention modeling for Q3 Active Base</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-outline bg-brand-card-bg px-3 py-1.5 rounded-lg border border-black/5">
+<span class="w-2 h-2 rounded-full bg-brand-green"></span> Model Live: Telemetry Syncing (v4.1.2)
+          </span>
+<span class="font-label-sm text-label-sm text-outline">Updated: 14m ago</span>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- TOP KPI METRIC ROW (Horizontal 5-Grid)    -->
+<!-- ========================================== -->
+<section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+<!-- Tile 1: Total Customers -->
+<div class="bg-brand-card-bg thin-border rounded-xl p-5 custom-shadow hover:custom-shadow-hover transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-outline mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Total Customers</span>
+<span class="material-symbols-outlined text-xl text-brand-teal" data-icon="groups">groups</span>
+</div>
+<div>
+<div class="font-metric-stat text-metric-stat text-brand-navy tracking-tight">7,043</div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-[#1FA97A]/12 text-brand-green">
+<span class="material-symbols-outlined text-xs mr-0.5" data-icon="arrow_upward">arrow_upward</span>+3.2%
+              </span>
+<span class="font-label-sm text-label-sm text-outline">vs last quarter</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-black/5 text-[11px] text-outline font-label-sm">
+            Active verified accounts
+          </div>
+</div>
+<!-- Tile 2: Churn Rate -->
+<div class="bg-brand-card-bg thin-border rounded-xl p-5 custom-shadow hover:custom-shadow-hover transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-outline mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Churn Rate</span>
+<span class="material-symbols-outlined text-xl text-brand-red" data-icon="warning">warning</span>
+</div>
+<div>
+<div class="font-metric-stat text-metric-stat text-brand-red tracking-tight">26.5%</div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-[#E5484D]/15 text-brand-red">
+                Critical Alert
+              </span>
+<span class="font-label-sm text-label-sm text-outline">1,869 churned</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-black/5 text-[11px] text-brand-red font-medium">
+            Requires retention intervention
+          </div>
+</div>
+<!-- Tile 3: Avg Tenure -->
+<div class="bg-brand-card-bg thin-border rounded-xl p-5 custom-shadow hover:custom-shadow-hover transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-outline mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Avg Tenure</span>
+<span class="material-symbols-outlined text-xl text-brand-teal" data-icon="hourglass_top">hourglass_top</span>
+</div>
+<div>
+<div class="font-metric-stat text-metric-stat text-brand-navy tracking-tight">32.4 mos</div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-[#1FA97A]/12 text-brand-green">
+                Stable
+              </span>
+<span class="font-label-sm text-label-sm text-outline">Median tenure: 29 mos</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-black/5 text-[11px] text-outline font-label-sm">
+            Retention indicator benchmark
+          </div>
+</div>
+<!-- Tile 4: Avg Monthly Charges -->
+<div class="bg-brand-card-bg thin-border rounded-xl p-5 custom-shadow hover:custom-shadow-hover transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-outline mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Avg Monthly Charges</span>
+<span class="material-symbols-outlined text-xl text-brand-navy" data-icon="payments">payments</span>
+</div>
+<div>
+<div class="font-metric-stat text-metric-stat text-brand-navy tracking-tight">$64.76</div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="font-label-sm text-label-sm font-semibold text-brand-navy">$456k</span>
+<span class="font-label-sm text-label-sm text-outline">total MRR impact</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-black/5 text-[11px] text-outline font-label-sm">
+            ARPU trending +1.8% MoM
+          </div>
+</div>
+<!-- Tile 5: Best Model AUC -->
+<div class="bg-brand-card-bg thin-border rounded-xl p-5 custom-shadow hover:custom-shadow-hover transition-all flex flex-col justify-between border-l-4 border-l-brand-teal">
+<div class="flex items-center justify-between text-outline mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-brand-teal font-bold">Best Model AUC</span>
+<span class="material-symbols-outlined text-xl text-brand-teal" data-icon="model_training">model_training</span>
+</div>
+<div>
+<div class="font-metric-stat text-metric-stat text-brand-navy tracking-tight">0.846</div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-brand-navy text-on-primary">
+                XGBoost Classifier
+              </span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-black/5 text-[11px] text-outline font-label-sm flex justify-between items-center">
+<span>Precision: 0.79</span>
+<span class="text-brand-green font-medium">Recall: 0.82</span>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- MAIN VISUALIZATION AREA (2-Column Grid)    -->
+<!-- ========================================== -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Chart Card: Customer Churn Breakdown (5 Cols) -->
+<div class="lg:col-span-5 bg-brand-card-bg thin-border rounded-xl p-6 custom-shadow flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md font-bold text-brand-navy">Customer Churn Breakdown</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Cohort attrition ratio across aggregate base</p>
+</div>
+<button class="p-1 rounded text-outline hover:text-brand-navy">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- Segmented Filter Tabs -->
+<div class="flex items-center gap-1 bg-surface-container-lowest p-1 rounded-lg border border-black/10 mt-5 w-fit">
+<button class="px-3 py-1 rounded-md text-label-sm font-label-sm bg-brand-navy text-on-primary shadow-xs">All Contracts</button>
+<button class="px-3 py-1 rounded-md text-label-sm font-label-sm text-on-surface-variant hover:text-brand-navy">Month-to-Month</button>
+<button class="px-3 py-1 rounded-md text-label-sm font-label-sm text-on-surface-variant hover:text-brand-navy">Two-Year</button>
+</div>
+<!-- High Fidelity SVG Donut Chart -->
+<div class="relative flex items-center justify-center my-6">
+<svg class="w-64 h-64 transform -rotate-90" viewbox="0 0 200 200">
+<!-- Background track -->
+<circle cx="100" cy="100" fill="transparent" r="76" stroke="#FFFFFF" stroke-width="24"></circle>
+<!-- Retained: 73.5% (Circumference = 2 * PI * 76 = 477.52) -> Dash = 351, Offset = 0 -->
+<circle class="transition-all duration-700 hover:opacity-90" cx="100" cy="100" fill="transparent" r="76" stroke="#1FA97A" stroke-dasharray="351 477.5" stroke-dashoffset="0" stroke-linecap="round" stroke-width="24"></circle>
+<!-- Churned: 26.5% -> Dash = 126.5, Offset = -351 -->
+<circle class="transition-all duration-700 hover:opacity-90" cx="100" cy="100" fill="transparent" r="76" stroke="#E5484D" stroke-dasharray="126.5 477.5" stroke-dashoffset="-351" stroke-linecap="round" stroke-width="24"></circle>
+</svg>
+<!-- Donut Center Label -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-outline">Base Churn</span>
+<span class="font-headline-xl text-headline-xl font-bold text-brand-navy leading-none mt-0.5">26.5%</span>
+<span class="font-body-sm text-body-sm text-brand-red font-semibold mt-1">1,869 Accts</span>
+</div>
+</div>
+</div>
+<!-- Crisp Legend Cards with Percentages -->
+<div class="grid grid-cols-2 gap-3 pt-4 border-t border-black/5">
+<!-- Retained Legend -->
+<div class="bg-surface-container-lowest p-3 rounded-lg border border-black/5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-brand-green"></span>
+<div>
+<div class="font-label-md text-label-md font-semibold text-brand-navy">Retained</div>
+<div class="font-body-sm text-body-sm text-outline">5,174 users</div>
+</div>
+</div>
+<span class="font-label-md text-label-md font-bold text-brand-green">73.5%</span>
+</div>
+<!-- Churned Legend -->
+<div class="bg-surface-container-lowest p-3 rounded-lg border border-black/5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-brand-red"></span>
+<div>
+<div class="font-label-md text-label-md font-semibold text-brand-navy">Churned</div>
+<div class="font-body-sm text-body-sm text-outline">1,869 users</div>
+</div>
+</div>
+<span class="font-label-md text-label-md font-bold text-brand-red">26.5%</span>
+</div>
+</div>
+</div>
+<!-- Right Chart Card: Customer Tenure Distribution (7 Cols) -->
+<div class="lg:col-span-7 bg-brand-card-bg thin-border rounded-xl p-6 custom-shadow flex flex-col justify-between">
+<div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-md text-headline-md font-bold text-brand-navy">Customer Tenure Distribution</h3>
+<!-- Callout badge -->
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#E5484D]/15 text-brand-red">
+<span class="material-symbols-outlined text-xs" data-icon="flag">flag</span> Peak Churn: 0-12 Mos
+                  </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Distribution of churned vs retained accounts grouped by lifecycle longevity</p>
+</div>
+<!-- Legend Switcher Indicators -->
+<div class="flex items-center gap-4 text-label-sm font-label-sm">
+<span class="flex items-center gap-1.5 text-brand-navy">
+<span class="w-3 h-3 rounded-sm bg-brand-teal"></span> Retained
+                </span>
+<span class="flex items-center gap-1.5 text-brand-navy">
+<span class="w-3 h-3 rounded-sm bg-brand-red"></span> Churned
+                </span>
+</div>
+</div>
+<!-- High Fidelity Histogram Graphic -->
+<div class="bg-surface-container-lowest rounded-lg p-5 border border-black/5">
+<div class="h-64 w-full flex flex-col justify-between relative">
+<!-- Y-Axis Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none text-right pr-2">
+<div class="border-b border-black/5 w-full h-0 flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline -translate-y-2">1,200</span>
+</div>
+<div class="border-b border-black/5 w-full h-0 flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline -translate-y-2">900</span>
+</div>
+<div class="border-b border-black/5 w-full h-0 flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline -translate-y-2">600</span>
+</div>
+<div class="border-b border-black/5 w-full h-0 flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline -translate-y-2">300</span>
+</div>
+<div class="border-b border-black/10 w-full h-0 flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline -translate-y-2">0</span>
+</div>
+</div>
+<!-- Histogram Bars Comparison Group -->
+<div class="h-full flex items-end justify-between pl-8 pr-2 z-10 pt-4">
+<!-- Bar 1: 0-12m (Peak Churn) -->
+<div class="flex flex-col items-center gap-1 group relative">
+<div class="flex items-end gap-1.5 h-48">
+<!-- Retained -->
+<div class="w-7 bg-brand-teal rounded-t transition-all group-hover:brightness-95" style="height: 52%;" title="Retained: 680"></div>
+<!-- Churned (High Peak) -->
+<div class="w-7 bg-brand-red rounded-t transition-all group-hover:brightness-95 relative" style="height: 94%;" title="Churned: 1,037">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 bg-brand-navy text-on-primary text-[10px] px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">1,037</span>
+</div>
+</div>
+</div>
+<!-- Bar 2: 13-24m -->
+<div class="flex flex-col items-center gap-1 group relative">
+<div class="flex items-end gap-1.5 h-48">
+<div class="w-7 bg-brand-teal rounded-t transition-all group-hover:brightness-95" style="height: 56%;" title="Retained: 720"></div>
+<div class="w-7 bg-brand-red rounded-t transition-all group-hover:brightness-95" style="height: 28%;" title="Churned: 294"></div>
+</div>
+</div>
+<!-- Bar 3: 25-36m -->
+<div class="flex flex-col items-center gap-1 group relative">
+<div class="flex items-end gap-1.5 h-48">
+<div class="w-7 bg-brand-teal rounded-t transition-all group-hover:brightness-95" style="height: 60%;" title="Retained: 790"></div>
+<div class="w-7 bg-brand-red rounded-t transition-all group-hover:brightness-95" style="height: 18%;" title="Churned: 180"></div>
+</div>
+</div>
+<!-- Bar 4: 37-48m -->
+<div class="flex flex-col items-center gap-1 group relative">
+<div class="flex items-end gap-1.5 h-48">
+<div class="w-7 bg-brand-teal rounded-t transition-all group-hover:brightness-95" style="height: 63%;" title="Retained: 820"></div>
+<div class="w-7 bg-brand-red rounded-t transition-all group-hover:brightness-95" style="height: 14%;" title="Churned: 145"></div>
+</div>
+</div>
+<!-- Bar 5: 49-60m -->
+<div class="flex flex-col items-center gap-1 group relative">
+<div class="flex items-end gap-1.5 h-48">
+<div class="w-7 bg-brand-teal rounded-t transition-all group-hover:brightness-95" style="height: 68%;" title="Retained: 890"></div>
+<div class="w-7 bg-brand-red rounded-t transition-all group-hover:brightness-95" style="height: 11%;" title="Churned: 120"></div>
+</div>
+</div>
+<!-- Bar 6: 61-72m -->
+<div class="flex flex-col items-center gap-1 group relative">
+<div class="flex items-end gap-1.5 h-48">
+<div class="w-7 bg-brand-teal rounded-t transition-all group-hover:brightness-95" style="height: 98%;" title="Retained: 1,274"></div>
+<div class="w-7 bg-brand-red rounded-t transition-all group-hover:brightness-95" style="height: 9%;" title="Churned: 93"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- X-Axis Labels -->
+<div class="flex justify-between pl-8 pr-2 pt-3 border-t border-black/10 mt-1 font-label-sm text-label-sm text-outline">
+<span class="w-16 text-center font-semibold text-brand-navy">0-12m</span>
+<span class="w-16 text-center">13-24m</span>
+<span class="w-16 text-center">25-36m</span>
+<span class="w-16 text-center">37-48m</span>
+<span class="w-16 text-center">49-60m</span>
+<span class="w-16 text-center">61-72m</span>
+</div>
+</div>
+</div>
+<!-- Bottom Descriptive Metric Callout -->
+<div class="flex items-center justify-between pt-4 mt-2 text-body-sm border-t border-black/5">
+<span class="text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-brand-teal" data-icon="lightbulb">lightbulb</span>
+              55.4% of all churn events occur within the onboarding year.
+            </span>
+<a class="font-label-md text-label-md text-brand-teal font-semibold hover:underline" href="#cohort-deep-dive">Explore 1st Year Interventions →</a>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- BOTTOM SECTION: HIGH RISK CHURN COHORTS    -->
+<!-- ========================================== -->
+<section class="bg-brand-card-bg thin-border rounded-xl p-6 custom-shadow">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-md text-headline-md font-bold text-brand-navy">High Risk Churn Cohorts &amp; Drivers</h3>
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#E5484D]/15 text-brand-red">Urgent Focus</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Top multivariate customer profiles exhibiting disproportionate churn concentration</p>
+</div>
+<!-- Quick Filters -->
+<div class="flex items-center gap-2">
+<span class="text-label-sm text-outline">Sort by:</span>
+<select class="h-8 px-2.5 rounded-lg text-body-sm bg-surface-container-lowest border border-black/15 text-brand-navy focus:border-brand-teal focus:ring-0 outline-none">
+<option>Risk Impact (Highest MRR)</option>
+<option>Relative Risk Ratio</option>
+<option>Cohort Size</option>
+</select>
+</div>
+</div>
+<!-- Analytical Data Table -->
+<div class="overflow-x-auto rounded-lg border border-black/5 bg-surface-container-lowest">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-brand-card-bg border-b border-black/10 font-label-sm text-label-sm uppercase tracking-wider text-outline">
+<th class="py-3 px-4">Cohort Profile &amp; Characteristics</th>
+<th class="py-3 px-4">Contract Type</th>
+<th class="py-3 px-4">Service Modality</th>
+<th class="py-3 px-4">Payment Method</th>
+<th class="py-3 px-4">Cohort Volume</th>
+<th class="py-3 px-4">Cohort Churn Rate</th>
+<th class="py-3 px-4 text-right">Risk Action</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y divide-black/5">
+<!-- Row 1: Top Driver (Month-to-month + Fiber Optic + Electronic Check) -->
+<tr class="hover:bg-brand-teal/5 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-brand-red"></span>
+<div>
+<span class="font-semibold text-brand-navy">High-Speed Uncommitted Base</span>
+<div class="font-label-sm text-[11px] text-outline">Tenure &lt; 9 months, No Tech Support</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex px-2 py-0.5 rounded text-label-sm font-medium bg-black/5 text-brand-navy">Month-to-Month</span>
+</td>
+<td class="py-3.5 px-4 text-brand-navy">
+<span class="font-medium text-brand-red">Fiber Optic</span>
+</td>
+<td class="py-3.5 px-4 text-outline font-label-md text-label-md">
+                  Electronic Check
+                </td>
+<td class="py-3.5 px-4 font-mono text-brand-navy">1,328 accts</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-bold text-brand-red">42.8%</span>
+<div class="w-16 bg-black/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-brand-red h-full" style="width: 42.8%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="h-7 px-3 rounded-md bg-brand-navy text-on-primary text-label-sm font-label-sm hover:bg-[#1B335F] transition-colors">
+                    Deploy Offer
+                  </button>
+</td>
+</tr>
+<!-- Row 2: Electronic Check with Streaming add-ons -->
+<tr class="hover:bg-brand-teal/5 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-brand-red"></span>
+<div>
+<span class="font-semibold text-brand-navy">Digital Entertainment Only</span>
+<div class="font-label-sm text-[11px] text-outline">Streaming TV/Movies, Paperless billing</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex px-2 py-0.5 rounded text-label-sm font-medium bg-black/5 text-brand-navy">Month-to-Month</span>
+</td>
+<td class="py-3.5 px-4 text-brand-navy">DSL / Fiber Mix</td>
+<td class="py-3.5 px-4 text-outline font-label-md text-label-md">
+                  Electronic Check
+                </td>
+<td class="py-3.5 px-4 font-mono text-brand-navy">892 accts</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-bold text-brand-red">38.2%</span>
+<div class="w-16 bg-black/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-brand-red h-full" style="width: 38.2%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="h-7 px-3 rounded-md bg-surface-container-lowest border border-black/15 text-brand-navy text-label-sm font-label-sm hover:bg-brand-card-bg transition-colors">
+                    Review Cohort
+                  </button>
+</td>
+</tr>
+<!-- Row 3: Senior Citizen Solo Plan -->
+<tr class="hover:bg-brand-teal/5 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+<div>
+<span class="font-semibold text-brand-navy">Solo Senior Demographics</span>
+<div class="font-label-sm text-[11px] text-outline">No Dependents, Single Phone Line</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex px-2 py-0.5 rounded text-label-sm font-medium bg-black/5 text-brand-navy">Month-to-Month</span>
+</td>
+<td class="py-3.5 px-4 text-brand-navy">Fiber Optic</td>
+<td class="py-3.5 px-4 text-outline font-label-md text-label-md">
+                  Bank Transfer (Auto)
+                </td>
+<td class="py-3.5 px-4 font-mono text-brand-navy">644 accts</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-bold text-amber-600">31.6%</span>
+<div class="w-16 bg-black/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full" style="width: 31.6%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="h-7 px-3 rounded-md bg-surface-container-lowest border border-black/15 text-brand-navy text-label-sm font-label-sm hover:bg-brand-card-bg transition-colors">
+                    Review Cohort
+                  </button>
+</td>
+</tr>
+<!-- Row 4: Two-Year Contract / Bundled Family (Low Churn Reference) -->
+<tr class="hover:bg-brand-teal/5 transition-colors bg-brand-green/[0.02]">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-brand-green"></span>
+<div>
+<span class="font-semibold text-brand-navy">Multi-line Family Secured</span>
+<div class="font-label-sm text-[11px] text-outline">Partner + Dependents, Online Security Active</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex px-2 py-0.5 rounded text-label-sm font-medium bg-[#1FA97A]/12 text-brand-green">Two-Year</span>
+</td>
+<td class="py-3.5 px-4 text-brand-navy">DSL &amp; Fiber</td>
+<td class="py-3.5 px-4 text-outline font-label-md text-label-md">
+                  Credit Card (Auto)
+                </td>
+<td class="py-3.5 px-4 font-mono text-brand-navy">1,695 accts</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-bold text-brand-green">3.1%</span>
+<div class="w-16 bg-black/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-brand-green h-full" style="width: 3.1%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-label-sm text-label-sm text-brand-green font-semibold">Low Risk Anchor</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Summary / Micro Insights Footer -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-2">
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-lowest border border-black/5">
+<span class="material-symbols-outlined text-brand-red" data-icon="priority_high">priority_high</span>
+<div>
+<div class="font-label-md text-label-md font-semibold text-brand-navy">Month-to-Month Exposure</div>
+<div class="font-body-sm text-body-sm text-outline">Accounts represent 82% of total quarterly cancellations.</div>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-lowest border border-black/5">
+<span class="material-symbols-outlined text-brand-teal" data-icon="cable">cable</span>
+<div>
+<div class="font-label-md text-label-md font-semibold text-brand-navy">Fiber Optic Price Sensitivity</div>
+<div class="font-body-sm text-body-sm text-outline">High monthly cost ($70+) driving tech migrations.</div>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-lowest border border-black/5">
+<span class="material-symbols-outlined text-brand-navy" data-icon="credit_card">credit_card</span>
+<div>
+<div class="font-label-md text-label-md font-semibold text-brand-navy">Payment Friction Channel</div>
+<div class="font-body-sm text-body-sm text-outline">Electronic check users churn at 4.2x auto-pay rates.</div>
+</div>
+</div>
+</div>
+</section>
+<!-- System Status Footer -->
+<footer class="flex flex-col sm:flex-row items-center justify-between text-outline font-label-sm text-label-sm py-4 border-t border-black/5">
+<div>TelcoIntel Enterprise Analytics • Release 2024.3 • Secure Workspace</div>
+<div class="flex items-center gap-4 mt-2 sm:mt-0">
+<a class="hover:text-brand-navy" href="#">Data Privacy &amp; GDPR</a>
+<a class="hover:text-brand-navy" href="#">Telemetry SLA</a>
+<a class="hover:text-brand-navy" href="#">API Endpoints</a>
+</div>
+</footer>
+</main>
+</div>
+</body></html>
