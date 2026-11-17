@@ -92,7 +92,7 @@ A complete, production-grade Telecom Churn Prediction & Executive Analytics plat
 ## How to Run
 
 ```bash
-cd "c:\Users\hrush\OneDrive\Documents\Prediction model dashbaord\Telco-Customer-Churn"
+
 streamlit run app/app.py
 ```
 Open `http://localhost:8501` in your browser.
